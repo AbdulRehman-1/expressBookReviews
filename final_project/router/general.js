@@ -13,12 +13,12 @@ public_users.post("/register", (req,res) => {
     if (username && password) {
       if (!doesExist(username)) {
         users.push({"username":username,"password":password});
-        return res.status(200).json({message: "User successfully registred. Now you can login"});
+        return res.status(200).json({message: "Customer successfully registred. Now you can login"});
       } else {
-        return res.status(404).json({message: "User already exists!"});
+        return res.status(404).json({message: "Customer already exists!"});
       }
     }
-    return res.status(404).json({message: "Unable to register user."});
+    return res.status(404).json({message: "Unable to register customer."});
   });
 
   const doesExist = (username)=>{
@@ -34,7 +34,7 @@ public_users.post("/register", (req,res) => {
 
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books,null,4));
+    res.send({books});
 });
 
 
@@ -56,7 +56,7 @@ public_users.get('/author/:author', function (req, res) {
     const filtered_books = keys.filter(key => books[key].author.toLowerCase() === author).map(key => books[key]);
 
     if (filtered_books.length > 0) {
-        return res.status(200).json(filtered_books);
+        return res.status(200).json({booksByAuthor:filtered_books});
     } else {
         return res.status(404).json({ message: "Books by this author not found" });
     }
@@ -69,7 +69,7 @@ public_users.get('/title/:title', function (req, res) {
     const filtered_books = keys.filter(key => books[key].title.toLowerCase() === title).map(key => books[key]);
 
     if (filtered_books.length > 0) {
-        return res.status(200).json(filtered_books);
+        return res.status(200).json({booksbytitle: filtered_books});
     } else {
         return res.status(404).json({ message: "Books with this title not found" });
     }
